@@ -1,3 +1,7 @@
+#########
+# Classes 
+#########
+
 class Sudoku:
 	def __init__(self, state):
 		self.state = state
@@ -24,29 +28,41 @@ class Sudoku:
 		j = j - (j % 3)
 		block = [self.state[i+k][j+l] for k in range(3) for l in range(3)]
 
-		return [x for x in range(9) if x not in row+col+block]
+		return [x for x in range(1,10) if x not in row+col+block]
 
-	def solve_rec(self, i, j):
-		if i == 8 and j == 8:
-			return
+	def next_cell(self, i, j):
+		return [i, j+1] if j < 8 else [i+1, 0]
 
-		if self.state[i][j] != 0:
-			if j < 8:
-				self.solve_rec(i, j+1)
-			else:
-				self.solve_rec(i+1, 0)
-		else:
-			for x in self.allowed_numbers(i, j):
-				self.state[i][j] = x
-				
-				if j < 8:
-					self.solve_rec(i, j+1)
-				else:
-					self.solve_rec(i+1, 0)
-				
-				self.state[i][j] = 0
+###########
+# Functions
+###########
 
+def solve_rec(sudoku, i, j):
+	if i == 9:
+		return True
 
+	if sudoku.state[i][j] != 0:
+		i_, j_ = sudoku.next_cell(i, j)
+		return solve_rec(sudoku, i_, j_)
+	else:
+		for x in sudoku.allowed_numbers(i, j):
+			sudoku.state[i][j] = x
+
+			res = False
+			i_, j_ = sudoku.next_cell(i, j)
+			res = solve_rec(sudoku, i_, j_)
+			if res: return res
+			
+			sudoku.state[i][j] = 0
+
+		return False
+
+def solve(sudoku):
+	solve_rec(sudoku, 0, 0)
+
+##########
+# Examples
+##########
 
 if __name__ == '__main__':
 	state = [
@@ -62,8 +78,5 @@ if __name__ == '__main__':
 	]
 
 	sudoku = Sudoku(state)
-
-	sudoku.solve_rec(0,0)
+	solve(sudoku)
 	sudoku.render()
-
-
