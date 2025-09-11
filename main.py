@@ -1,21 +1,26 @@
-#########
 # Classes 
-#########
+# -------
 
-class Sudoku:
-	def __init__(self, state):
-		self.state = state
+class SudokuSolver:
+	def __init__(self, initial_state, next_cell = None):
+		self.initial_state = initial_state
+		if next_cell == None: self.next_cell = self.default_next_cell
+		self.reset()
 
-	def render(self):
+	def reset(self):
+		self.state = self.initial_state
+		self.solutions = []
+
+	def render(self, state):
 		for i in range(9):
 			row = ''
 			for j in range(9):
 				if j in [3, 6]:
 					row += '| '
-				if self.state [i][j] == 0:
+				if state [i][j] == 0:
 					row += '. '
 				else:
-					row += str(self.state[i][j]) + ' '
+					row += str(state[i][j]) + ' '
 			if i in [3, 6]:
 				print('------+-------+-------')
 			print(row)
@@ -30,43 +35,49 @@ class Sudoku:
 
 		return [x for x in range(1,10) if x not in row+col+block]
 
-	def next_cell(self, i, j):
+	def insert(self, i, j, num):
+		self.state[i][j] = num
+
+	def undo(self, i, j):
+		self.state[i][j] = 0
+
+	def copy(self):
+		return [self.state[i].copy() for i in range(9)]
+
+	def default_next_cell(self, i, j):
 		return [i, j+1] if j < 8 else [i+1, 0]
 
-###########
-# Functions
-###########
+	def solve_rec(self, i, j, single_solution):
+		if i == 9:
+			self.solutions += [self.copy()]
+			return single_solution
 
-def solve_rec(sudoku, i, j):
-	if i == 9:
-		return True
+		i_, j_ = self.next_cell(i, j)
 
-	if sudoku.state[i][j] != 0:
-		i_, j_ = sudoku.next_cell(i, j)
-		return solve_rec(sudoku, i_, j_)
-	else:
-		for x in sudoku.allowed_numbers(i, j):
-			sudoku.state[i][j] = x
+		if self.state[i][j] != 0:
+			return self.solve_rec(i_, j_, single_solution)
+		else:
+			for num in self.allowed_numbers(i, j):
+				self.insert(i, j, num)
 
-			res = False
-			i_, j_ = sudoku.next_cell(i, j)
-			res = solve_rec(sudoku, i_, j_)
-			if res: return res
-			
-			sudoku.state[i][j] = 0
+				res = False
+				res = self.solve_rec(i_, j_, single_solution)
+				if res: return res
+				
+				self.undo(i, j)
 
-		return False
+			return False
 
-def solve(sudoku):
-	solve_rec(sudoku, 0, 0)
+	def solve(self, single_solution = False):
+		self.reset()
+		self.solve_rec(0, 0, single_solution)
 
-##########
 # Examples
-##########
+# --------
 
 if __name__ == '__main__':
 	state = [
-		[0,8,0,7,9,0,4,0,0],
+		[0,0,0,0,0,0,4,0,0],
 		[6,0,1,0,4,2,0,0,0],
 		[0,7,0,6,0,0,0,0,8],
 		[7,0,6,0,0,0,0,2,0],
@@ -77,6 +88,10 @@ if __name__ == '__main__':
 		[0,0,8,0,5,7,0,6,0]
 	]
 
-	sudoku = Sudoku(state)
-	solve(sudoku)
-	sudoku.render()
+
+	solver = SudokuSolver(state)
+	solver.solve()
+	print(f"Number of solutions: {len(solver.solutions)}\n")
+	for sol in solver.solutions:
+		solver.render(sol)
+
