@@ -47,13 +47,13 @@ class SudokuSolver:
 		i_, j_ = [i, j+1] if j < 8 else [i+1, 0]
 
 		if self.state[i][j] != 0:
-			return self.solve_rec(i_, j_, single_solution)
+			return self.brute_solve_rec(i_, j_, single_solution)
 		else:
 			for num in self.allowed_numbers(i, j):
 				self.state[i][j] = num
 
 				res = False
-				res = self.solve_rec(i_, j_, single_solution)
+				res = self.brute_solve_rec(i_, j_, single_solution)
 				if res: return res
 				
 				self.state[i][j] = 0
@@ -62,7 +62,7 @@ class SudokuSolver:
 
 	def brute_solve(self, single_solution = False):
 		self.reset()
-		self.solve_rec(0, 0, single_solution)
+		self.brute_solve_rec(0, 0, single_solution)
 
 	def counting_trick(self):
 		cells_with_numbers = []
@@ -144,15 +144,18 @@ if __name__ == '__main__':
 	]
 
 	solver = SudokuSolver(state)
-	solver.render()
+	# solver.render()
 
-	trick_order = [solver.counting_trick, solver.single_choice_trick_for_rows, solver.single_choice_trick_for_blocks]
-	solver.trick_solve(trick_order)
-	solver.render()
+	# solver.brute_solve(single_solution = True)
+	# solver.render()
 
-	trick_order = [solver.counting_trick, solver.single_choice_trick_for_rows, solver.single_choice_trick_for_columns]
+	trick_order = [solver.counting_trick, solver.single_choice_trick_for_rows, solver.single_choice_trick_for_columns, solver.single_choice_trick_for_blocks]
 	solver.trick_solve(trick_order)
-	solver.render()
+	# solver.render()
+
+	# trick_order = [solver.counting_trick, solver.single_choice_trick_for_rows, solver.single_choice_trick_for_columns]
+	# solver.trick_solve(trick_order)
+	# solver.render()
 
 	# solver.brute_solve()
 	# print(f"Number of solutions: {len(solver.solutions)}\n")
