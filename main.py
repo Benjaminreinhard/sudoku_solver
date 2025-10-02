@@ -1,9 +1,13 @@
+from example_states import *
+
 # Constants
 # ---------
 
-ROWS = [[[i,j] for j in range(9)] for i in range(9)]
-COLUMNS = [[[i,j] for i in range(9)] for j in range(9)]
-BLOCKS = [[[i+k,j+l] for k in range(3) for l in range(3)] for i in [0,3,6] for j in [0,3,6]]
+ROW_CELL_RANGES = [[[i,j] for j in range(9)] for i in range(9)]
+COLUMN_CELL_RANGES = [[[i,j] for i in range(9)] for j in range(9)]
+BLOCK_CELL_RANGES = [[[i+k,j+l] for k in range(3) for l in range(3)] for i in [0,3,6] for j in [0,3,6]]
+
+CELL_RANGES = ROW_CELL_RANGES+COLUMN_CELL_RANGES+BLOCK_CELL_RANGES
 
 # Functions
 # ---------
@@ -86,7 +90,7 @@ def counting_trick(state):
 def generic_single_choice_trick(state, number_range_func):
 	cells_with_numbers = []
 
-	for cell_range in ROWS+COLUMNS+BLOCKS:
+	for cell_range in CELL_RANGES:
 		banned_numbers = []
 
 		for i, j in cell_range:
@@ -107,19 +111,8 @@ def single_choice_trick(state):
 # --------
 
 if __name__ == '__main__':
-	state = [
-		[0,8,0,7,9,0,4,0,0],
-		[6,0,1,0,4,2,0,0,0],
-		[0,7,0,6,0,0,0,0,8],
-		[7,0,6,0,0,0,0,2,0],
-		[1,3,0,0,0,0,0,8,4],
-		[0,2,0,0,0,0,6,0,9],
-		[9,0,0,0,0,8,0,7,0],
-		[0,0,0,2,1,0,8,0,3],
-		[0,0,8,0,5,7,0,6,0]
-	]
-
-	solutions = brute_solve(state)
-	print(single_choice_trick(state))
+	solutions = brute_solve(state_2)
+	render(solutions[0])
+	print(single_choice_trick(state_2))
 
 
