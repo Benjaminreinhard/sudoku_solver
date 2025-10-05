@@ -38,6 +38,40 @@ def allowed_numbers(state, i, j):
 
 	return [x for x in range(1,10) if x not in row+col+block]
 
+def possibility_matrix(state, level = 0):
+	matrix = [[allowed_numbers(state, i, j) for j in range(9)] for i in range(9)]
+
+	if level == 0: return matrix
+
+	for cell_range in BLOCK_CELL_RANGES:
+		for num in range(1,10):
+			cells_having_num = []
+			for i, j in cell_range:
+				if num in matrix[i][j]:
+					cells_having_num += [[i,j]]
+
+			if cells_having_num == []: continue
+
+			row_match, col_match = True, True
+			row_index, col_index = cells_having_num[0]
+			for i, j in cells_having_num[1:]:
+				if i != row_index:
+					row_match = False
+				if j != col_index:
+					col_match = False
+
+			if row_match:
+				for i, j in ROW_CELL_RANGES[row_index]:
+					if [i, j] not in cells_having_num and num in matrix[i][j]:
+						matrix[i][j].remove(num)
+
+			if col_match:
+				for i, j in COLUMN_CELL_RANGES[col_index]:
+					if [i, j] not in cells_having_num and num in matrix[i][j]:
+						matrix[i][j].remove(num)
+
+	return matrix
+
 def brute_solve_rec(state, solutions, i, j, single_solution):
 	if i == 9:
 		solutions += [[state[i].copy() for i in range(9)]]
@@ -87,32 +121,43 @@ def counting_trick(state):
 
 	return cells_with_numbers
 
-def generic_single_choice_trick(state, number_range_func):
+def generic_single_choice_trick(possibility_matrix):
 	cells_with_numbers = []
 
 	for cell_range in CELL_RANGES:
 		banned_numbers = []
+		cells_with_numbers_for_cell_range = []
 
 		for i, j in cell_range:
-			for num in number_range_func(state, i,j):
+			for num in possibility_matrix[i][j]:
 				if num not in banned_numbers:
-					if num not in [num_ for i_,j_,num_ in cells_with_numbers]:
-						cells_with_numbers += [[i, j, num]]
+					if num not in [num_ for i_,j_,num_ in cells_with_numbers_for_cell_range]:
+						cells_with_numbers_for_cell_range += [[i, j, num]]
 					else:
-						cells_with_numbers = [[i_,j_,num_] for i_, j_, num_ in cells_with_numbers if num_ != num]
+						cells_with_numbers_for_cell_range = [[i_,j_,num_] for i_, j_, num_ in cells_with_numbers_for_cell_range if num_ != num]
 						banned_numbers += [num]
+
+		cells_with_numbers += cells_with_numbers_for_cell_range
 
 	return cells_with_numbers
 
 def single_choice_trick(state):
-	return generic_single_choice_trick(state, allowed_numbers)
+	return generic_single_choice_trick(possibility_matrix(state))
 
 # Examples
 # --------
 
 if __name__ == '__main__':
-	solutions = brute_solve(state_2)
-	render(solutions[0])
-	print(single_choice_trick(state_2))
+	# m_1 = possibility_matrix(state_1)
+	# m_2 = possibility_matrix(state_1, level = 1)
+	# for i in range(9):
+	# 	for j in range(9):
+	# 		if m_1[i][j] != m_2[i][j]:
+	# 			print(i, j, m_1[i][j], m_2[i][j])
+	# print()
+	render(state_1)
+	print()
+
+	print(single_choice_trick(state_1))
 
 
