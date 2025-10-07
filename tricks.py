@@ -1,17 +1,31 @@
 # Imports
 # -------
 
-from utils import *
+from logic_utils import *
 
 # Tricks
 # ------
 
-trick_1 = {
-	'name': 'Counting Trick',
-	'func': lambda state: only_choice_in_cell_trick(possibility_matrix(state))
-}
+def s_c(state):
+	matrix = possibility_matrix(state)
+	return only_choice_in_cell_trick(matrix)
 
-trick_2 = {
-	'name': 'Scannig Trick',
-	'func': lambda state: only_choice_in_cell_range_trick(possibility_matrix(state))
-}
+def s_s(state):
+	matrix = possibility_matrix(state)
+	return only_choice_in_cell_range_trick(matrix)
+
+def i_c(state):
+	matrix = possibility_matrix(state, reduction_techniques = [reduction_by_aligned_nums_in_block], max_iterations = 1)
+	return only_choice_in_cell_trick(matrix)
+
+def i_s(state):
+	matrix = possibility_matrix(state, reduction_techniques = [reduction_by_aligned_nums_in_block], max_iterations = 1)
+	return only_choice_in_cell_range_trick(matrix)
+
+def a_c(state):
+	matrix = possibility_matrix(state, reduction_techniques = [reduction_by_same_nums_in_cells], max_iterations = 1)
+	return only_choice_in_cell_trick(matrix)
+
+def a_s(state):
+	matrix = possibility_matrix(state, reduction_techniques = [reduction_by_same_nums_in_cells], max_iterations = 1)
+	return only_choice_in_cell_range_trick(matrix)

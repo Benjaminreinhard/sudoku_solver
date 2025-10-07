@@ -2,7 +2,9 @@
 # ---------
 
 ROW_CELL_RANGES = [[[i,j] for j in range(9)] for i in range(9)]
+
 COLUMN_CELL_RANGES = [[[i,j] for i in range(9)] for j in range(9)]
+
 BLOCK_CELL_RANGES = [[[i+k,j+l] for k in range(3) for l in range(3)] for i in [0,3,6] for j in [0,3,6]]
 
 CELL_RANGES = ROW_CELL_RANGES+COLUMN_CELL_RANGES+BLOCK_CELL_RANGES
@@ -47,7 +49,7 @@ def brute_solve(state, single_solution = False):
 	brute_solve_rec(state, solutions, 0, 0, single_solution)
 	return solutions
 
-def reduction_by_num_aligned_in_block(matrix):
+def reduction_by_aligned_nums_in_block(matrix):
 	reduction_found = False
 	for cell_range in BLOCK_CELL_RANGES:
 		for num in range(1,10):
@@ -93,7 +95,7 @@ def reduction_by_same_nums_in_cells(matrix):
 
 			for i, j in cells_having_num:
 				for n in [n for n in matrix[i][j] if n not in nums_only_in_cells_having_num]:
-					matrix[i][j].remove(num_)
+					matrix[i][j].remove(n)
 					reduction_found = True
 
 	return matrix, reduction_found
@@ -158,14 +160,12 @@ def trick_solve(state, trick_order, without_bottlenecks = False):
 		}
 
 		for trick in trick_order:
-			name = trick['name']
-			cells_with_numbers = trick['func'](state)
-
-			if not cells_with_numbers: continue
+			name = trick.__name__
+			cells_with_numbers = trick(state)
 
 			situation['cells_with_numbers'][name] = cells_with_numbers
 
-			if situation['next_trick'] == None:
+			if cells_with_numbers and situation['next_trick'] == None:
 				situation['next_trick'] = name
 
 			if without_bottlenecks: break
