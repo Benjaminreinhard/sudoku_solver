@@ -9,7 +9,7 @@ from render_utils import *
 # User inputs
 # -----------
 
-initial_state = example_states.state_4
+initial_state = example_states.state_5
 
 trick_order = [
 	tricks.s_c,
@@ -17,7 +17,9 @@ trick_order = [
 	tricks.i_c,
 	tricks.i_s,
 	tricks.a_c,
-	tricks.a_s
+	tricks.a_s,
+	tricks.e_c,
+	tricks.e_s
 ]
 
 coloring_enabled = True
