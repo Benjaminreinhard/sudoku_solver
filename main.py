@@ -16,7 +16,7 @@ from render_utils import (
 
 initial_state = example_states.state_4
 
-trick_order = [ s_c, s_s, i_c, i_s, a_c, a_s, e_c, e_s ]
+trick_order = [s_c, s_s, i_c, i_s, a_c, a_s, e_c, e_s]
 
 coloring_enabled = True
 
