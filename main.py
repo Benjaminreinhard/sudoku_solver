@@ -2,7 +2,7 @@
 # -------
 
 import example_states
-import tricks
+from tricks import s_c, s_s, i_c, i_s, a_c, a_s, e_c, e_s
 from logic_utils import brute_solve, trick_solve
 from render_utils import (
     title_print,
@@ -14,18 +14,9 @@ from render_utils import (
 # User inputs
 # -----------
 
-initial_state = example_states.empty_state
+initial_state = example_states.state_4
 
-trick_order = [
-    tricks.s_c,
-    tricks.s_s,
-    tricks.i_c,
-    tricks.i_s,
-    tricks.a_c,
-    tricks.a_s,
-    tricks.e_c,
-    tricks.e_s,
-]
+trick_order = [ s_c, s_s, i_c, i_s, a_c, a_s, e_c, e_s ]
 
 coloring_enabled = True
 
