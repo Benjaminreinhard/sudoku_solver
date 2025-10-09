@@ -3,7 +3,7 @@
 
 import example_states
 import tricks
-from logic_utils import brute_solve, trick_solve
+from logic_utils import copy_state, brute_solve, trick_solve
 from render_utils import (
     title_print,
     render_states,
@@ -34,7 +34,7 @@ num_of_entries_per_row = 20
 # Main
 # ----
 
-state = [initial_state[i].copy() for i in range(9)]
+state = copy_state(initial_state)
 
 solutions = brute_solve(state)
 num_of_solutions = len(solutions)
@@ -45,7 +45,7 @@ if num_of_solutions != 1:
     )
     exit()
 
-state = [initial_state[i].copy() for i in range(9)]
+state = copy_state(initial_state)
 
 outline = trick_solve(state, trick_order)
 

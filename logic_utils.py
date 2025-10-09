@@ -16,6 +16,8 @@ CELL_RANGES = ROW_CELL_RANGES + COLUMN_CELL_RANGES + BLOCK_CELL_RANGES
 # Functions
 # ---------
 
+def copy_state(state):
+    return [[state[i].copy() for i in range(9)]]
 
 def allowed_numbers(state, i, j):
     if state[i][j] != 0:
@@ -32,7 +34,7 @@ def allowed_numbers(state, i, j):
 
 def brute_solve_rec(state, solutions, i, j, single_solution):
     if i == 9:
-        solutions += [[state[i].copy() for i in range(9)]]
+        solutions += copy_state(state)
         return single_solution
 
     i_, j_ = [i, j + 1] if j < 8 else [i + 1, 0]
