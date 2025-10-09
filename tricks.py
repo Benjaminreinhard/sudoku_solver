@@ -9,75 +9,32 @@ from logic_utils import (
     reduction_by_same_nums_in_cells,
 )
 
+# Constants
+# ---------
+
+INF = float('inf')
+
 # Tricks
 # ------
 
+def make_trick(trick_func, reduction_techniques, max_iterations):
+	def trick(state):
+		return trick_func(possibility_matrix(state, reduction_techniques, max_iterations))
 
-def s_c(state):
-    reduction_techniques = []
-    max_iterations = 1
-    trick_func = only_choice_in_cell_trick
+	return trick
 
-    return trick_func(possibility_matrix(state, reduction_techniques, max_iterations))
+s_c = make_trick(only_choice_in_cell_trick, [], 1)
 
+s_s = make_trick(only_choice_in_cell_range_trick, [], 1)
 
-def s_s(state):
-    reduction_techniques = []
-    max_iterations = 1
-    trick_func = only_choice_in_cell_range_trick
+i_c = make_trick(only_choice_in_cell_trick, [reduction_by_aligned_nums_in_block], 1)
 
-    return trick_func(possibility_matrix(state, reduction_techniques, max_iterations))
+i_s = make_trick(only_choice_in_cell_range_trick, [reduction_by_aligned_nums_in_block], 1)
 
+a_c = make_trick(only_choice_in_cell_trick, [reduction_by_same_nums_in_cells], 1)
 
-def i_c(state):
-    reduction_techniques = [reduction_by_aligned_nums_in_block]
-    max_iterations = 1
-    trick_func = only_choice_in_cell_trick
+a_s = make_trick(only_choice_in_cell_range_trick, [reduction_by_same_nums_in_cells], 1)
 
-    return trick_func(possibility_matrix(state, reduction_techniques, max_iterations))
+e_c = make_trick(only_choice_in_cell_trick, [reduction_by_aligned_nums_in_block, reduction_by_same_nums_in_cells], INF)
 
-
-def i_s(state):
-    reduction_techniques = [reduction_by_aligned_nums_in_block]
-    max_iterations = 1
-    trick_func = only_choice_in_cell_range_trick
-
-    return trick_func(possibility_matrix(state, reduction_techniques, max_iterations))
-
-
-def a_c(state):
-    reduction_techniques = [reduction_by_same_nums_in_cells]
-    max_iterations = 1
-    trick_func = only_choice_in_cell_trick
-
-    return trick_func(possibility_matrix(state, reduction_techniques, max_iterations))
-
-
-def a_s(state):
-    reduction_techniques = [reduction_by_same_nums_in_cells]
-    max_iterations = 1
-    trick_func = only_choice_in_cell_range_trick
-
-    return trick_func(possibility_matrix(state, reduction_techniques, max_iterations))
-
-
-def e_c(state):
-    reduction_techniques = [
-        reduction_by_aligned_nums_in_block,
-        reduction_by_same_nums_in_cells,
-    ]
-    max_iterations = float("inf")
-    trick_func = only_choice_in_cell_trick
-
-    return trick_func(possibility_matrix(state, reduction_techniques, max_iterations))
-
-
-def e_s(state):
-    reduction_techniques = [
-        reduction_by_aligned_nums_in_block,
-        reduction_by_same_nums_in_cells,
-    ]
-    max_iterations = float("inf")
-    trick_func = only_choice_in_cell_range_trick
-
-    return trick_func(possibility_matrix(state, reduction_techniques, max_iterations))
+e_s = make_trick(only_choice_in_cell_range_trick, [reduction_by_aligned_nums_in_block, reduction_by_same_nums_in_cells], INF)
