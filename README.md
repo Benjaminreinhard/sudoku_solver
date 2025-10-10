@@ -15,7 +15,7 @@ Sudoku solver that gives you insight on the solvability using specified tricks.
 ```bash
 git clone 'https://github.com/Benjaminreinhard/sudoku_solver/'
 cd sudoku_solver
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip install .
 ```
@@ -36,5 +36,6 @@ E.g. `python  -m sudoku_solver example_states.txt 3`.
 ## License
 
 GPL v3 License
+
 
 
