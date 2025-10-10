@@ -1,13 +1,14 @@
 # Sudoku Solver
 
-A Python Sudoku solver that gives you insight on the solvability with specified tricks.
+Sudoku solver that gives you insight on the solvability using specified tricks.
 
 ## Features
 
 * Solve any proper Sudoku using a brute-force technique.
+* Solve any proper Sudoku using specified tricks AS FAR AS POSSIBLE.
 * Visualize the solving process with colored output.
 * Track how many cells were filled per trick.
-* Tell you at each iteration, how many cells can be filled per trick.
+* Track how many cells can be filled per trick at each iteration.
 
 ## Installation
 
@@ -29,3 +30,4 @@ python main.py <states_file> <state_number>
 ## License
 
 GPL v3 License
+
