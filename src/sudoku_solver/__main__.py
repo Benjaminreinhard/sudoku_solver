@@ -15,19 +15,20 @@ from sudoku_solver.render_utils import (
 # Functions
 # ---------
 
+
 def parse_state(file_path, state_nr):
-    with open(file_path, 'r') as f:
+    with open(file_path, "r") as f:
         lines = f.readlines()
 
     lines = [line.strip() for line in lines]
 
-    lines = [line for line in lines if line != '']
+    lines = [line for line in lines if line != ""]
 
-    lines = [line.replace(' ', '') for line in lines]
+    lines = [line.replace(" ", "") for line in lines]
 
     state_index = lines.index(f"#{state_nr}")
 
-    lines = lines[state_index+1:state_index+10]
+    lines = lines[state_index + 1 : state_index + 10]
 
     lines = [list(line) for line in lines]
 
@@ -36,12 +37,11 @@ def parse_state(file_path, state_nr):
     return state
 
 
-
 def main():
     if len(argv) != 3:
-        print('ERROR: You must provide exactly two arguments:')
-        print('       First argument is the file path of the state.')
-        print('       Second argument is the state number.')
+        print("ERROR: You must provide exactly two arguments:")
+        print("       First argument is the file path of the state.")
+        print("       Second argument is the state number.")
         exit()
 
     initial_state = parse_state(argv[1], argv[2])
@@ -79,8 +79,11 @@ def main():
     title_print("2. Counts of used steps per trick:\n", coloring_enabled)
     render_counts_of_used_tricks(trick_order, outline)
 
-    title_print("3. Counts of available steps per trick and iteration:\n", coloring_enabled)
+    title_print(
+        "3. Counts of available steps per trick and iteration:\n", coloring_enabled
+    )
     render_counts_of_available_steps(trick_order, outline, num_of_entries_per_row)
+
 
 if __name__ == "__main__":
     main()
