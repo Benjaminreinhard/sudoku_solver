@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sudoku_solver"
+version = "0.1.0"
+description = "Get insights of solving Sudokus with predefined tricks."
+requires-python = ">=3.8"
+readme = "README.md"
+license-files = [ "LICENSE*" ]
+authors = [ { name = "Benjamin Reinhard" } ]
+maintainers = [ { name = "Benjamin Reinhard" } ]
+
+[project.urls]
+homepage = "https://github.com/Benjaminreinhard/sudoku_solver/"
+repository = "https://github.com/Benjaminreinhard/sudoku_solver/"
+
+[project.scripts]
+sudoku_solver = 'sudoku_solver.__main__:main'

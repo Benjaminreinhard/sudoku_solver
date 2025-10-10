@@ -1,8 +1,17 @@
+# Personal directory for files I want in the project, but not to be shared
 gitignore/
 
+# Python build and packaging artifacts
+*.egg-info/
 build/
 dist/
-
 __pycache__/
 
+# Mac specific
 .DS_Store
+
+# Ruff
+.ruff_cache/
+
+# Virtual environments
+venv/

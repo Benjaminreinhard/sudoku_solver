@@ -1,7 +1,7 @@
 # Imports
 # -------
 
-from logic_utils import (
+from sudoku_solver.logic_utils import (
     possibility_matrix,
     only_choice_in_cell_trick,
     only_choice_in_cell_range_trick,
