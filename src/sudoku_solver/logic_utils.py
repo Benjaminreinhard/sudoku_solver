@@ -1,6 +1,3 @@
-# Constants
-# ---------
-
 ROW_CELL_RANGES = [[[i, j] for j in range(9)] for i in range(9)]
 
 COLUMN_CELL_RANGES = [[[i, j] for i in range(9)] for j in range(9)]
@@ -12,9 +9,6 @@ BLOCK_CELL_RANGES = [
 ]
 
 CELL_RANGES = ROW_CELL_RANGES + COLUMN_CELL_RANGES + BLOCK_CELL_RANGES
-
-# Functions
-# ---------
 
 
 def allowed_numbers(state, i, j):

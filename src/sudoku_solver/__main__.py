@@ -1,6 +1,3 @@
-# Imports
-# -------
-
 from sys import argv
 
 from sudoku_solver.tricks import s_c, s_s, i_c, i_s, a_c, a_s, e_c, e_s
@@ -12,29 +9,19 @@ from sudoku_solver.render_utils import (
     render_counts_of_available_steps,
 )
 
-# Functions
-# ---------
-
 
 def parse_state(file_path, state_nr):
     with open(file_path, "r") as f:
         lines = f.readlines()
 
     lines = [line.strip() for line in lines]
-
     lines = [line for line in lines if line != ""]
-
     lines = [line.replace(" ", "") for line in lines]
 
     state_index = lines.index(f"#{state_nr}")
-
     lines = lines[state_index + 1 : state_index + 10]
 
-    lines = [list(line) for line in lines]
-
-    state = [[int(j) for j in line] for line in lines]
-
-    return state
+    return [[int(j) for j in list(line)] for line in lines]
 
 
 def main():

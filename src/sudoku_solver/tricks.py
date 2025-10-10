@@ -1,6 +1,3 @@
-# Imports
-# -------
-
 from sudoku_solver.logic_utils import (
     possibility_matrix,
     only_choice_in_cell_trick,
@@ -8,9 +5,6 @@ from sudoku_solver.logic_utils import (
     reduction_by_aligned_nums_in_block,
     reduction_by_same_nums_in_cells,
 )
-
-# Tricks
-# ------
 
 
 def s_c(state):
